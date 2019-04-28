@@ -7,7 +7,7 @@ import (
 
 func main(){
   fmt.Println("Outside a go routine")   // declares anonymous
-    go func ()  {                       // function and executes
+  go func ()  {                         // function and executes
     fmt.Println("Inside a go routine")  // as a go routine
   }()
 
