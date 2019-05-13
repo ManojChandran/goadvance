@@ -1,28 +1,21 @@
-// go methods
 /*
-  difference between function and method
+  go methods
 */
 package main
 
 import (
-    "fmt"
-    "math"
+  "fmt"
 )
 
-type Point struct { X,Y float64 }
+type User struct {
+  FirstName, LastName string
+}
 
-// traditional function
-func Distance(p,q Point) float64  {
-  return math.Hypot(q.X-p.X, q.Y-p.Y)
+func (u User) Greetings() string  {
+  return fmt.Sprintf("Dear %s %s", u.FirstName, u.LastName)
 }
-// same thing, but as a methd of the Point type
-func (p Point) Distance(q Point) float64 {
-  return math.Hypot(q.X-p.X, q.Y-p.Y)
-}
-func main() {
-  p := Point{1, 2}
-  q := Point{4, 6}
-  fmt.Println(Distance(p,q))
-  fmt.Println(p.Distance(q))
-  fmt.Println(q.Distance(p))
+
+func main()  {
+  u := User {"Manoj", "Chandran"}
+  fmt.Println(u.Greetings())
 }

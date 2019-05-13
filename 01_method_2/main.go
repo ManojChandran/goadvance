@@ -1,28 +1,28 @@
 // go methods
 /*
-  Receiver can be pointer
+  difference between function and method
 */
 package main
 
 import (
     "fmt"
+    "math"
 )
 
-type rect struct {
-  width, height float64
-}
+type Point struct { X,Y float64 }
 
-func (r rect) area() float64 {
-  return r.width * r.height
+// traditional function
+func Distance(p,q Point) float64  {
+  return math.Hypot(q.X-p.X, q.Y-p.Y)
 }
-
-func (r *rect) perim() float64 {
-  return 2 * r.width + 2*r.height
+// same thing, but as a methd of the Point type
+func (p Point) Distance(q Point) float64 {
+  return math.Hypot(q.X-p.X, q.Y-p.Y)
 }
-
 func main() {
-  r := rect{width: 10, height: 5}
-  r_ptr := &r
-  fmt.Println("Area :", r.area())
-  fmt.Println("Perimeter :", r_ptr.perim())
+  p := Point{1, 2}
+  q := Point{4, 6}
+  fmt.Println(Distance(p,q))
+  fmt.Println(p.Distance(q))
+  fmt.Println(q.Distance(p))
 }
