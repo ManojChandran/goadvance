@@ -1,8 +1,7 @@
 package main
 
 import (
-    "fmt"
-    "/home/manoj/github.com/ManojChandran/goadvance/01_method_5/encapsulation"
+    "./encapsulation"
 )
 
 func main() {
