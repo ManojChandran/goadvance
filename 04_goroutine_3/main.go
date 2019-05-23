@@ -1,30 +1,45 @@
-// Go concurrency demo with go routine
+// Go Mutex example
 package main
 
 import (
   "fmt"
-  "time"
+  "sync"
 )
 
+var count int
+var lock sync.Mutex
+var arithmatic sync.WaitGroup
+
+func increment()  {
+  lock.Lock()
+  defer lock.Unlock()
+  count++
+  fmt.Printf("Incrementing : %d\n", count)
+}
+
+func decrement()  {
+  lock.Lock()
+  defer lock.Unlock()
+  count--
+  fmt.Printf("Decrementing : %d\n", count)
+}
+
 func main()  {
-  go spinner(100 * time.Millisecond)
-  const n = 45
-  fibN := fib(n)
-  fmt.Printf("\rFibonacci (%d) = %d\n", n, fibN)
-}
-
-func spinner(delay time.Duration)  {
-  for {
-    for _, r := range `-\|/`{
-      fmt.Printf("\r%c",r)
-      time.Sleep(delay)
-    }
+  for i:=0; i <= 5; i++{
+      arithmatic.Add(1)
+      go func ()  {
+        defer arithmatic.Done()
+        increment()
+      }()
   }
-}
 
-func fib(x int) int  {
-  if x < 2 {
-    return x
+  for i:=0; i <= 5; i++{
+      arithmatic.Add(1)
+      go func ()  {
+        defer arithmatic.Done()
+        decrement()
+      }()
   }
-  return fib(x-1) + fib(x-2)
+  arithmatic.Wait()
+  fmt.Println("Done...")
 }
