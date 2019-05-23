@@ -2,22 +2,43 @@ package main
 
 import (
     "fmt"
-    "math"
 )
 
-type Point struct {
-  X,Y float64
-}
-func (p Point) Abs() float64  {
-  return math.Sqrt(p.X * p.X + p.Y * p.Y)
+// user defines a user in the program.
+type user struct {
+  name string
+  email string
 }
 
-func main() {
-    var p *Point
-    fmt.Println(p.Abs()) // invalid memory address or nil pointer dereference
+// notify implements a method with a value reciever
+func (u user) notify()  {
+  fmt.Printf("Sending user email to %s<%s>\n",
+  u.name,
+  u.email)
 }
-/*
-Un initialized pointer pin the main function is nil, and you can't follow
-the nil pointer.
-if x is nil, an attempt to evaluate *x will cause a run-time panic
-*/
+
+// changeEmail implements a method with a pointer receiver.
+func (u *user) changeEmail(email string)  {
+  u.email = email
+}
+
+func main()  {
+  // Values of type user can be used to call methods
+  // declared with a value receiver.
+  bill := user {"Bill", "bill@email.com"}
+  bill.notify()
+
+  // Pointers of type user can also be used to call methods
+ // declared with a value receiver.
+ lisa := &user{"Lisa","lisa@email.com"}
+ lisa.notify()
+
+ // Values of type user can be used to call methods
+ // declared with a pointer receiver.
+ bill.changeEmail("bill@newdomain.com")
+ bill.notify()
+
+ lisa.changeEmail("lisa@newdomain.com")
+ lisa.notify()
+
+}
